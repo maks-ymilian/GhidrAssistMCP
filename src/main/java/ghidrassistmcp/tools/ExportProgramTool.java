@@ -17,6 +17,8 @@ import ghidra.util.task.TaskMonitor;
 import ghidrassistmcp.McpTool;
 import io.modelcontextprotocol.spec.McpSchema;
 
+import com.google.security.binexport.BinExportExporter;
+
 /**
  * Exports the active program to a host file.
  */
@@ -29,7 +31,7 @@ public class ExportProgramTool implements McpTool {
 
     @Override
     public String getDescription() {
-        return "Export the program to disk. Supports format 'binary' (raw bytes) or 'original_file'. " +
+        return "Export the program to disk. Supports format 'binary' (raw bytes), 'original_file', and 'binexport' (Google BinExport). " +
                "Use after patching bytes to write a modified binary. " +
                "SECURITY: This tool writes to the host filesystem and is disabled by default.";
     }
@@ -59,7 +61,7 @@ public class ExportProgramTool implements McpTool {
                 "format", Map.of(
                     "type", "string",
                     "description", "Export format",
-                    "enum", List.of("binary", "original_file")),
+                    "enum", List.of("binary", "original_file", "binexport")),
                 "overwrite", Map.of(
                     "type", "boolean",
                     "description", "Overwrite existing file. Default: false")
@@ -104,8 +106,11 @@ public class ExportProgramTool implements McpTool {
             case "original_file":
                 exporter = new OriginalFileExporter();
                 break;
+            case "binexport":
+                exporter = new BinExportExporter();
+                break;
             default:
-                return textResult("Unsupported format: " + format + ". Use 'binary' or 'original_file'.");
+                return textResult("Unsupported format: " + format + ". Use 'binary', 'original_file', or 'binexport'.");
         }
 
         try {
