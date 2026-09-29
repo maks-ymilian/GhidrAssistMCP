@@ -98,11 +98,7 @@ public class ImportFileTool implements McpTool {
                     "description", "Destination folder in the Ghidra project (e.g. '/' or '/banks'). Default: '/'.")),
                 Map.entry("open_after_import", Map.of(
                     "type", "boolean",
-                    "description", "Open the imported program in CodeBrowser after import. Default: true.")),
-                Map.entry("suppress_analysis_prompt", Map.of(
-                    "type", "boolean",
-                    "description", "If open_after_import is true, set 'Should Ask To Analyze' to false before opening. Default: true.",
-                    "default", true))
+                    "description", "Open the imported program in CodeBrowser after import. Default: true."))
             ),
             List.of("file_path"), null, null, null);
     }
@@ -163,8 +159,7 @@ public class ImportFileTool implements McpTool {
 
         Object openAfterObj = arguments.get("open_after_import");
         boolean openAfterImport = (openAfterObj == null) || Boolean.TRUE.equals(openAfterObj);
-        Object suppressPromptObj = arguments.get("suppress_analysis_prompt");
-        boolean suppressAnalysisPrompt = (suppressPromptObj == null) || Boolean.TRUE.equals(suppressPromptObj);
+        boolean suppressAnalysisPrompt = true;
 
         // --- Perform import ---
         MessageLog messageLog = new MessageLog();

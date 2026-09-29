@@ -68,11 +68,6 @@ public class OpenProgramTool implements McpTool {
                     "type", "string",
                     "description", "Project folder to search in (e.g. '/' or '/banks'). Default: search all folders."
                 )),
-                Map.entry("suppress_analysis_prompt", Map.of(
-                    "type", "boolean",
-                    "description", "For action 'open': set 'Should Ask To Analyze' to false before opening. Default: true.",
-                    "default", true
-                )),
                 Map.entry("analyze_after_open", Map.of(
                     "type", "boolean",
                     "description", "For action 'open': submit an analyze_program task after opening. Default: false.",
@@ -203,9 +198,7 @@ public class OpenProgramTool implements McpTool {
             program = (Program) match.getDomainObject(
                 this, false, false, TaskMonitor.DUMMY);
 
-            if (getBoolean(arguments, "suppress_analysis_prompt", true)) {
-                AnalysisUtils.setAskToAnalyze(program, false);
-            }
+            AnalysisUtils.setAskToAnalyze(program, false);
 
             pm.openProgram(program);
 
