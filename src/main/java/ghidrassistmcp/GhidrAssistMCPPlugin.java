@@ -80,6 +80,9 @@ public class GhidrAssistMCPPlugin extends ProgramPlugin {
 		// The first tool to register becomes the server owner and gets its provider used
 		isServerOwner = manager.registerTool(tool, provider);
 
+		// Set active tool to be this tool
+		manager.setActiveTool(tool);
+
 		if (isServerOwner) {
 			Msg.info(this, "This plugin instance is the MCP server owner");
 		} else {
